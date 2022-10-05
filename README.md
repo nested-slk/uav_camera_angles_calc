@@ -17,3 +17,4 @@ Screenshot of the program after calculating:
 1. fix camera x angle overflow
 2. add UAV diretion in scene
 3. fix tilt camera view
+4. fix target height great than UAV
