@@ -26,6 +26,7 @@ void MainWindow::on_calcBttn_clicked()
 // get coords
     target_coord[0] = ui->target_get_x->value();
     target_coord[1] = ui->target_get_y->value();
+    target_coord[2] = ui->target_get_z->value();
     uav_coord[0] = ui->uav_get_x->value();
     uav_coord[1] = ui->uav_get_y->value();
     uav_coord[2] = ui->uav_get_z->value();
@@ -45,7 +46,7 @@ void MainWindow::on_calcBttn_clicked()
     camera_coord[0] = calcAngleVectors(v_normalize, a_normalize, camera_xy_change_dir);
 
 // calc z coord
-    calcVectorSub(w, 0, 0, v[0], uav_coord[2]);
+    calcVectorSub(w, 0, 0, v[0], uav_coord[2] - target_coord[2]);
     normalizeVector(w_normalize, w);
     camera_coord[1] = calcAngleVectors(w_normalize, az_normalize, camera_xy_change_dir);
 //merge with uav angle
@@ -58,26 +59,24 @@ void MainWindow::on_calcBttn_clicked()
 //show info in frst scene
     scene->clear();
     text = scene->addSimpleText("Target");
-    text ->setPos(target_coord_in_uav[0] + 10, -target_coord_in_uav[1] - 10);
+    text ->setPos((target_coord_in_uav[0] * scale_x )+ 10, -(target_coord_in_uav[1] * scale_y) - 10);
     camera_x_line = scene->addLine(0, 150 , 0, -150, QColorConstants::DarkRed);
     camera_x_line = scene->addLine(-150, 0 , 150, 0, QColorConstants::DarkGreen);
-    ellipse = scene->addEllipse( target_coord_in_uav[0] - 5, -target_coord_in_uav[1] - 5, 10, 10);
+    ellipse = scene->addEllipse( (target_coord_in_uav[0] * scale_x)- 5, -(target_coord_in_uav[1]* scale_y) - 5, 10, 10);
     rectangle = scene->addRect(0 - 5, 0 -5, 10,  10);
-    camera_x_line = scene->addLine(0 , 0 , target_coord_in_uav[0], -target_coord_in_uav[1]);
+    camera_x_line = scene->addLine(0 , 0 , target_coord_in_uav[0] * scale_x, -target_coord_in_uav[1] * scale_y);
 
 //show info in snd scene
     sceneZ->clear();
     text = sceneZ->addSimpleText("UAV");
-    text ->setPos(5, -uav_coord[2] - 20);
+    text ->setPos(5, -((uav_coord[2] - target_coord[2]) / 2)- 20);
     text = sceneZ->addSimpleText("Target");
-    text ->setPos(calcVectorLenght(v) + 10, -20);
-    camera_x_line = sceneZ->addLine(0,  -uav_coord[2], az_normalize[0]*100, -az_normalize[1], QColorConstants::DarkRed);
-    camera_x_line = sceneZ->addLine(0,  -uav_coord[2], az[0]*100, -az[1], QColorConstants::DarkGreen);
+    text ->setPos((calcVectorLenght(v) * scale_x)+ 10, -20);
     camera_x_line = sceneZ->addLine(0, 150 , 0, -150, QColorConstants::Green);
     camera_x_line = sceneZ->addLine(-150, 0, 150, 0, QColorConstants::Blue);
-    ellipse = sceneZ->addEllipse(calcVectorLenght(v) - 5, 0 - 5, 10, 10);
-    rectangle = sceneZ->addRect(0 - 5, -uav_coord[2] - 5, 10,  10);
-    camera_x_line = sceneZ->addLine(0, -uav_coord[2], calcVectorLenght(v), 0);
+    ellipse = sceneZ->addEllipse((calcVectorLenght(v) * scale_x) - 5, 0 - 5, 10, 10);
+    rectangle = sceneZ->addRect(0 - 5, -((uav_coord[2] - target_coord[2]) / 2) - 5, 10,  10);
+    camera_x_line = sceneZ->addLine(0, -((uav_coord[2] - target_coord[2]) / 2), (calcVectorLenght(v) * scale_x), 0);
 }
 
 void MainWindow::calcVectorSub(std::vector<float>& _out_vector, float _x1, float _y1, float _x2, float _y2)

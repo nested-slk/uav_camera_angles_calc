@@ -28,6 +28,8 @@ class MainWindow : public QMainWindow
     std::vector<float> az_normalize {0,1};
     bool camera_xy_change_dir = false;
     float angle_target_to_north;
+    int scale_x = 25000;
+    int scale_y = 25000;
 
 public:
     MainWindow(QWidget *parent = nullptr);
@@ -35,7 +37,6 @@ public:
 
 private slots:
     void on_calcBttn_clicked();
-    void on_target_get_x_valueChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;
