@@ -13,3 +13,6 @@ X camera angle is rotation (-180 to 180deg), Y is tilt (0 to 90deg)
 Screenshot of the program after calculating:
 ![image](https://user-images.githubusercontent.com/61833299/194166825-ff662379-b983-4519-9dea-56117e4b4c93.png)
 
+//TODO 
+1. fix camera x angle overflow
+2. add UAV diretion in scene
