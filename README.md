@@ -9,3 +9,7 @@ Screenshot of the program:
 Enter the UAV and target coordinates then press "calc". 
 Program will calculate angles of camera and display top and side views. 
 X camera angle is rotation (-180 to 180deg), Y is tilt (0 to 90deg) 
+
+Screenshot of the program after calculating:
+![image](https://user-images.githubusercontent.com/61833299/194166825-ff662379-b983-4519-9dea-56117e4b4c93.png)
+
