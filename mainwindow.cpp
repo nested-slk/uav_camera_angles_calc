@@ -38,6 +38,8 @@ void MainWindow::on_calcBttn_clicked()
 //tf to uav coordinates
     target_coord_in_uav[0] = target_coord[0] - uav_coord[0];
     target_coord_in_uav[1] = target_coord[1] - uav_coord[1];
+    if ( uav_coord[3] > 180.0 )
+        uav_coord[3] = (uav_coord[3] - 360);
 //check direction
     if(uav_coord[1] > target_coord[1]){
         camera_xy_change_dir = true;
@@ -50,9 +52,10 @@ void MainWindow::on_calcBttn_clicked()
     camera_coord[0] = calcAngleVectors(v_normalize, a_normalize, camera_xy_change_dir);
 
 // calc z coord
-    calcVectorSub(w, 0, 0, v[0], uav_coord[2] - target_coord[2]);
+    calcVectorSub(w, 0, 0, (v[0] * 111.134861111), (uav_coord[2] - target_coord[2]) * 0.001);
     normalizeVector(w_normalize, w);
-    camera_coord[1] = calcAngleVectors(w_normalize, az_normalize, camera_xy_change_dir);
+    camera_coord[1] = calcAngleVectors(w_normalize, az_normalize, false);
+
 //merge with uav angle
     camera_coord[0] = (uav_coord[3] - camera_coord[0]) * -1;
 
@@ -60,12 +63,15 @@ void MainWindow::on_calcBttn_clicked()
     ui->target_y->setText(QString::number(camera_coord[1]));
 
 // TODO add uav direction
+
+//    ui->UAV_angle->setText(QString::number(w[0]) + ' ' + QString::number(w[1]));
+//        ui->UAV_X->setText(QString::number(w_normalize[0]) + ' ' + QString::number(w_normalize[1]));
 //show info in frst scene
     scene->clear();
     text = scene->addSimpleText("Target");
     text ->setPos((target_coord_in_uav[0] * scale_x )+ 10, -(target_coord_in_uav[1] * scale_x) - 10);
     text = scene->addSimpleText("N");
-    text ->setPos(150 + 10, 10);
+    text ->setPos(150 + 10, -10);
     camera_x_line = scene->addLine(0, 150 , 0, -150, QColorConstants::DarkRed);
     camera_x_line = scene->addLine(-150, 0 , 150, 0, QColorConstants::DarkGreen);
     ellipse = scene->addEllipse( (target_coord_in_uav[0] * scale_x)- 5, -(target_coord_in_uav[1]* scale_x) - 5, 10, 10);
@@ -132,5 +138,5 @@ float MainWindow::calcAngleVectors(std::vector<float>& _v_normalize, std::vector
     float angle_bw_vectors = std::acos(_a_normalize[0] * _v_normalize[0] +
                                     _a_normalize[1] * _v_normalize[1]);
     if (_dir) return (angle_bw_vectors * 180.0 / 3.1415) * -1 ;
-    return angle_bw_vectors * 180.0 / 3.1415 ;
+    return (angle_bw_vectors * 180.0 / 3.1415) ;
 }
