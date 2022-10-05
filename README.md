@@ -11,8 +11,9 @@ Program will calculate angles of camera and display top and side views.
 X camera angle is rotation (-180 to 180deg), Y is tilt (0 to 90deg) 
 
 Screenshot of the program after calculating:
-![image](https://user-images.githubusercontent.com/61833299/194166825-ff662379-b983-4519-9dea-56117e4b4c93.png)
+![image](https://user-images.githubusercontent.com/61833299/194174019-a5bc166d-996b-4545-840d-6e9887b499d1.png)
 
 //TODO 
 1. fix camera x angle overflow
 2. add UAV diretion in scene
+3. fix tilt camera view
