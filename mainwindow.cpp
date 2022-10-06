@@ -81,14 +81,14 @@ void MainWindow::on_calcBttn_clicked()
 //show info in snd scene
     sceneZ->clear();
     text = sceneZ->addSimpleText("UAV");
-    text ->setPos(5, -((uav_coord[2] - target_coord[2]) / 2)- 20);
+    text ->setPos(5, -((uav_coord[2] - target_coord[2]) * 0.001 * scale_x) - 20);
     text = sceneZ->addSimpleText("Target");
     text ->setPos((calcVectorLenght(v) * scale_x)+ 10, -20);
-    camera_x_line = sceneZ->addLine(0, -((uav_coord[2] - target_coord[2]) / 2)- 20 , 0, 15, QColorConstants::Green);
+    camera_x_line = sceneZ->addLine(0, -((uav_coord[2] - target_coord[2]) * 0.001 * scale_x)- 20 , 0, 15, QColorConstants::Green);
     camera_x_line = sceneZ->addLine(-15, 0, (calcVectorLenght(v) * scale_x) + 20, 0, QColorConstants::Blue);
     ellipse = sceneZ->addEllipse((calcVectorLenght(v) * scale_x) - 5, 0 - 5, 10, 10);
-    rectangle = sceneZ->addRect(0 - 5, -((uav_coord[2] - target_coord[2]) / 2) - 5, 10,  10);
-    camera_x_line = sceneZ->addLine(0, -((uav_coord[2] - target_coord[2]) / 2), (calcVectorLenght(v) * scale_x), 0);
+    rectangle = sceneZ->addRect(0 - 5, -((uav_coord[2] - target_coord[2])  * 0.001 * scale_x) - 5, 10,  10);
+    camera_x_line = sceneZ->addLine(0, -((uav_coord[2] - target_coord[2])  * 0.001 * scale_x), (calcVectorLenght(v) * scale_x), 0);
 }
 
 void MainWindow::calcVectorSub(std::vector<float>& _out_vector, float _x1, float _y1, float _x2, float _y2)
